@@ -1,9 +1,10 @@
 import pygame
 
 class Tank:
-    def __init__(self, image, speed, x, y):
+    def __init__(self, image, destroyed_image, speed, x, y):
         self.speed = speed
         self.image = image
+        self.destroyed_image = destroyed_image
         self.rect = image.get_rect()
         self.rect.x = x;
         self.rect.y = y;
@@ -18,7 +19,10 @@ class Tank:
             if turn_right:
                 self.turn = self.turn -1
                 center = self.rect
+                
                 self.image = pygame.transform.rotate(self.image, -90)
+                self.destroyed_image = pygame.transform.rotate(self.destroyed_image, -90)
+
                 self.rect = self.image.get_rect(center=self.image.get_rect(center=(self.rect.x+40, self.rect.y+40)).center)
                 self.start_time = pygame.time.get_ticks()
 
@@ -26,7 +30,10 @@ class Tank:
                 elapsed = pygame.time.get_ticks() - self.start_time
                 self.turn = self.turn  + 1
                 center = self.rect
+
                 self.image = pygame.transform.rotate(self.image, 90)
+                self.destroyed_image = pygame.transform.rotate(self.destroyed_image, 90)
+
                 self.rect = self.image.get_rect(center=self.image.get_rect(center=(self.rect.x+40, self.rect.y+40)).center)
                 self.start_time = pygame.time.get_ticks()
 
