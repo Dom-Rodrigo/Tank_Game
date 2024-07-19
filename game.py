@@ -1,7 +1,6 @@
 import sys, pygame
 from tank import Tank
 from bullet import Bullet
-from game_functions import Movement
 
 pygame.init()
 
@@ -12,6 +11,8 @@ grey = 112, 112, 112
 i = 0
 
 screen = pygame.display.set_mode(size)
+screen_rect = screen.get_rect()
+
 clock = pygame.time.Clock()
 timer_interval = 500
 next_bullet_time = 500
@@ -43,11 +44,14 @@ space1_pressed = 0
 while True:
 
 
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
 
     screen.fill(grey)
+    tank.check_ifout(screen_rect)
+    tank1.check_ifout(screen_rect)
     tank_bullets.draw(screen)
     tank1_bullets.draw(screen)
 

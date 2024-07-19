@@ -19,7 +19,7 @@ class Tank:
             if turn_right:
                 self.turn = self.turn -1
                 center = self.rect
-                
+
                 self.image = pygame.transform.rotate(self.image, -90)
                 self.destroyed_image = pygame.transform.rotate(self.destroyed_image, -90)
 
@@ -58,3 +58,13 @@ class Tank:
                 self.rect.right += self.speed
             if self.turn in [1, -3]: #Tank is poiting to the left
                 self.rect.right -= self.speed
+
+    def check_ifout(self, screen_rect):
+            if self.rect.x < screen_rect.left+80: #doesnt work
+                self.rect.x = screen_rect.left+80
+            if self.rect.x > screen_rect.right - 80: #works
+                self.rect.x = screen_rect.right - 80
+            if self.rect.y < screen_rect.top + 80: #dont work
+                 self.rect.y = screen_rect.top + 80
+            if self.rect.y > screen_rect.height-83: #works
+                 self.rect.y = screen_rect.height-83
