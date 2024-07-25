@@ -17,6 +17,7 @@ class Bullet(pygame.sprite.Sprite):
 
         if self.turn in [1, -3]: #Tank is poiting to the left
             self.rect.center = (tank.rect.x+50, tank.rect.y+35+50)
+        self.tank = tank
 
         #adjusted to the tip
 
