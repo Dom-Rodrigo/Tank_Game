@@ -4,7 +4,8 @@ from bullet import Bullet
 
 pygame.mixer.init()
 pygame.init()
-
+#sound of bullets
+sound_bullet=pygame.mixer.Sound("Pistola22cal.wav")
 # Carrega o som de destruição
 destroy = pygame.mixer.Sound("explosao.wav")
 
@@ -39,7 +40,7 @@ bimg = pygame.image.load("bullet.png")
 def show_game_over_message():
     font = pygame.font.Font(None, 74)
     pygame.display.flip()
-    pygame.time.delay(500)
+    pygame.time.delay(100)
     destroy.play()
 
     error_text = font.render("Tank Destroyed!", True, (255, 0, 0))
@@ -110,10 +111,12 @@ while True:
     for tank in tanks:
         screen.blit(tank.image, tank.rect)
         current_time = pygame.time.get_ticks()
+       
         if current_time > tank.next_bullet_time:
             if keys[tank.k_fire]:
                 tank.bullets.add(Bullet(bimg, tank))
                 tank.space_pressed = 1
+                sound_bullet.play()
             tank.next_bullet_time += tank.timer_interval
 
             # WORKS UNTIL HERE
@@ -128,7 +131,7 @@ while True:
                         #collided.rect.x = collided.rect.x - 16
                         #collided.rect.y = collided.rect.y - 16
                         screen.blit(collided.destroyed_image, (collided.rect.x-16, collided.rect.y-16))
-                        pygame.time.delay(2000)
+                        pygame.time.delay(1000)
                         if show_game_over_message():
                             bullet.tank.points +=1
                             collided.endurance = 50
