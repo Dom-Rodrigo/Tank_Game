@@ -40,7 +40,6 @@ bimg = pygame.image.load("bullet.png")
 def show_game_over_message():
     font = pygame.font.Font(None, 74)
     pygame.display.flip()
-    pygame.time.delay(100)
     destroy.play()
 
     error_text = font.render("Tank Destroyed!", True, (255, 0, 0))
@@ -131,13 +130,12 @@ while True:
                         #collided.rect.x = collided.rect.x - 16
                         #collided.rect.y = collided.rect.y - 16
                         screen.blit(collided.destroyed_image, (collided.rect.x-16, collided.rect.y-16))
-                        pygame.time.delay(1000)
                         if show_game_over_message():
                             bullet.tank.points +=1
                             collided.endurance = 50
                             # RENEW THE TANKS
                             ##collided = Tank(tank1_image, tank1_destroyed_image, speed, x=width, y=height, points, endurance,  k_up, k_down, k_left, k_right, k_fire, space_pressed, next_bullet_time, timer_interval)
-                            pygame.time.delay(500)
+                            #pygame.time.delay(500)
                         else:
                             pygame.quit()
                             sys.exit()
