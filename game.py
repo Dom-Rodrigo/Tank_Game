@@ -62,12 +62,21 @@ def show_game_over_message():
                 elif event.key == pygame.K_n:
                     return False
 
+
+tank_points = 0
+tank1_points = 0
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
 
     screen.fill(grey)
+
+    font = pygame.font.Font(None, 40)
+    placar = font.render(f"Green {tank_points} x Red {tank1_points}", True, (20, 20, 20))
+    screen.blit(placar, (width//2 - placar.get_width()//2, 0))
+
     tank.check_ifout(screen_rect)
     tank1.check_ifout(screen_rect)
     tank_bullets.draw(screen)
@@ -117,6 +126,7 @@ while True:
 
     for tank1_bullet in tank1_bullets:
         if tank1_bullet.rect.colliderect(tank.rect):
+            tank1_points += 1
             destroy.play()  # Toca o som de destruição
             tank.speed = 0
             tank.image = tank.destroyed_image
@@ -141,6 +151,7 @@ while True:
 
     for tank_bullet in tank_bullets:
         if tank_bullet.rect.colliderect(tank1.rect):
+            tank_points += 1
             destroy.play()  # Toca o som de destruição
             tank1.speed = 0
             tank1.image = tank1_destroyed_image
