@@ -79,7 +79,7 @@ while True:
         tanks_points.append(tank)
 
     font = pygame.font.Font(None, 40)
-    placar = font.render(f"Green {tanks_points[0].points} x Red {tanks_points[1].points}", True, (20, 20, 20))
+    placar = font.render(f"Green {tanks_points[0].points} x Red {tanks_points[1].points} x Blue {tanks_points[2].points}", True, (20, 20, 20))
     screen.blit(placar, (width//2 - placar.get_width()//2, 0))
 
 
@@ -114,7 +114,11 @@ while True:
 
         if current_time > tank.next_bullet_time:
             if keys[tank.k_fire]:
-                tank.bullets.add(Bullet(bimg, tank))
+                if len(tank.bullets) < 10:
+                    tank.bullets.add(Bullet(bimg, tank))
+                else:
+                    pass
+                print(len(tank.bullets))
                 tank.space_pressed = 1
                 sound_bullet.play()
             tank.next_bullet_time += tank.timer_interval
@@ -131,13 +135,14 @@ while True:
                         #collided.rect.x = collided.rect.x - 16
                         #collided.rect.y = collided.rect.y - 16
                         screen.blit(collided.destroyed_image, (collided.rect.x-16, collided.rect.y-16))
+                        bullet.tank.points +=1
+                        collided.endurance = 50
+                        i = 0;
+                        for tank in tanks:
+                            tank.update(positions[i][0], positions[i][1])
+                            i+=1
                         if show_game_over_message():
-                            bullet.tank.points +=1
-                            collided.endurance = 50
-                            i = 0;
-                            for tank in tanks:
-                                tank.update(positions[i][0], positions[i][1])
-                                i+=1
+                            print("on restart")
                             # RENEW THE TANKS
                             ##collided = Tank(tank1_image, tank1_destroyed_image, speed, x=width, y=height, points, endurance,  k_up, k_down, k_left, k_right, k_fire, space_pressed, next_bullet_time, timer_interval)
                             #pygame.time.delay(500)
