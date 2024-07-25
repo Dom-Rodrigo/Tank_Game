@@ -8,15 +8,16 @@ class Bullet(pygame.sprite.Sprite):
         self.rect = image.get_rect()
         self.turn = tank.turn
         if self.turn in [0, 4, -4]: #Tank is poiting to the top
-            self.rect.center = (tank.rect.x+35, tank.rect.y)
+            self.rect.center = (tank.rect.x+38, tank.rect.y-20)
         if self.turn in [-2, 2]: #Tank is pointing down
-            self.rect.center = (tank.rect.x+35, tank.rect.y+70)
+            self.rect.center = (tank.rect.x+38, tank.rect.y+100)
 
         if self.turn in [-1, 3]: #Tank is poiting to the right
-            self.rect.center = (tank.rect.x+35, tank.rect.y+35)
+            self.rect.center = (tank.rect.x+85, tank.rect.y+35)
 
         if self.turn in [1, -3]: #Tank is poiting to the left
-            self.rect.center = (tank.rect.x, tank.rect.y+35)
+            self.rect.center = (tank.rect.x-38, tank.rect.y+35)
+        self.tank = tank
 
         #adjusted to the tip
 
