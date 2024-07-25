@@ -22,7 +22,7 @@ timer_interval = 100
 next_bullet_time = 100
 next1_bullet_time = 100
 
-tank_destroyed_image = pygame.image.load("tank_destroyed.png").convert_alpha()
+tank_destroyed_image = pygame.image.load("tank1_destroyed.png").convert_alpha()
 
 tank_image = pygame.image.load("tank.png").convert_alpha()
 tank = Tank(tank_image, tank_destroyed_image, speed=5, x=0, y=0, points=0, endurance=50, k_up=pygame.K_UP, k_down=pygame.K_DOWN, k_left=pygame.K_LEFT, k_right=pygame.K_RIGHT, k_fire=pygame.K_SPACE, space_pressed=0, next_bullet_time=100, timer_interval=100)
@@ -121,20 +121,20 @@ while True:
                 if pygame.sprite.spritecollideany(bullet, tanks):
 
                     collided = pygame.sprite.spritecollideany(bullet, tanks)
-                    print(collided)
                     collided.endurance -= 1
                     if collided.endurance == 0:
-                        collided.speed = 0
-                        collided.image = collided.destroyed_image
-                        collided.rect.x = collided.rect.x - 16
-                        collided.rect.y = collided.rect.y - 16
-                        screen.blit(collided.image, collided.rect)
+                        bullet.tank.bullets.empty()
+                        #collided.speed = 0
+                        #collided.rect.x = collided.rect.x - 16
+                        #collided.rect.y = collided.rect.y - 16
+                        screen.blit(collided.destroyed_image, (collided.rect.x-16, collided.rect.y-16))
                         pygame.time.delay(2000)
                         if show_game_over_message():
                             bullet.tank.points +=1
+                            collided.endurance = 50
                             # RENEW THE TANKS
                             ##collided = Tank(tank1_image, tank1_destroyed_image, speed, x=width, y=height, points, endurance,  k_up, k_down, k_left, k_right, k_fire, space_pressed, next_bullet_time, timer_interval)
-                            collided.bullets.empty()
+                            pygame.time.delay(500)
                         else:
                             pygame.quit()
                             sys.exit()
