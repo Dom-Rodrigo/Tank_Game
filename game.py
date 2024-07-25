@@ -66,6 +66,9 @@ def show_game_over_message():
 tank_points = 0
 tank1_points = 0
 
+tank_lifes = 50
+tank1_lifes = 50
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -126,21 +129,25 @@ while True:
 
     for tank1_bullet in tank1_bullets:
         if tank1_bullet.rect.colliderect(tank.rect):
-            tank1_points += 1
-            destroy.play()  # Toca o som de destruição
-            tank.speed = 0
-            tank.image = tank.destroyed_image
-            tank.rect.x = tank.rect.x - 16
-            tank.rect.y = tank.rect.y - 16
-            screen.blit(tank.image, tank.rect)
-            if show_game_over_message():
-                tank = Tank(tank_image, tank_destroyed_image, speed=5, x=0, y=0)
-                tank1 = Tank(tank1_image, tank1_destroyed_image, speed=5, x=width-73, y=height-80)
-                tank_bullets.empty()
-                tank1_bullets.empty()
-            else:
-                pygame.quit()
-                sys.exit()
+            tank_lifes -= 1
+
+            if tank_lifes == 0:
+                destroy.play()
+                tank1_points += 1
+                tank.speed = 0
+                tank.image = tank.destroyed_image
+                tank.rect.x = tank.rect.x - 16
+                tank.rect.y = tank.rect.y - 16
+                screen.blit(tank.image, tank.rect)
+                if show_game_over_message():
+                    tank = Tank(tank_image, tank_destroyed_image, speed=5, x=0, y=0)
+                    tank1 = Tank(tank1_image, tank1_destroyed_image, speed=5, x=width-73, y=height-80)
+                    tank_bullets.empty()
+                    tank1_bullets.empty()
+                    tank_lifes = 50
+                else:
+                    pygame.quit()
+                    sys.exit()
 
     current_time = pygame.time.get_ticks()
     if current_time > next_bullet_time:
@@ -151,22 +158,25 @@ while True:
 
     for tank_bullet in tank_bullets:
         if tank_bullet.rect.colliderect(tank1.rect):
-            tank_points += 1
-            destroy.play()  # Toca o som de destruição
-            tank1.speed = 0
-            tank1.image = tank1_destroyed_image
-            tank1.rect.x = tank1.rect.x - 16
-            tank1.rect.y = tank1.rect.y - 16
-            screen.blit(tank1.image, tank1.rect)
-            pygame.time.delay(2000)
-            if show_game_over_message():
-                tank = Tank(tank_image, tank_destroyed_image, speed=5, x=0, y=0)
-                tank1 = Tank(tank1_image, tank1_destroyed_image, speed=5, x=width-73, y=height-80)
-                tank_bullets.empty()
-                tank1_bullets.empty()
-            else:
-                pygame.quit()
-                sys.exit()
+            tank1_lifes -= 1
+
+            if tank1_lifes == 0:
+                destroy.play()
+                tank_points += 1
+                tank1.speed = 0
+                tank1.image = tank1_destroyed_image
+                tank1.rect.x = tank1.rect.x - 16
+                tank1.rect.y = tank1.rect.y - 16
+                screen.blit(tank1.image, tank1.rect)
+                pygame.time.delay(2000)
+                if show_game_over_message():
+                    tank = Tank(tank_image, tank_destroyed_image, speed=5, x=0, y=0)
+                    tank1 = Tank(tank1_image, tank1_destroyed_image, speed=5, x=width-73, y=height-80)
+                    tank_bullets.empty()
+                    tank1_bullets.empty()
+                    tank1_lifes = 50
+                else:
+                    pygame.quit()
 
     screen.blit(tank.image, tank.rect)
     screen.blit(tank1.image, tank1.rect)
