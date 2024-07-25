@@ -1,7 +1,8 @@
 import pygame
 
-class Tank:
-    def __init__(self, image, destroyed_image, speed, x, y, points, endurance):
+class Tank(pygame.sprite.Sprite):
+    def __init__(self, image, destroyed_image, speed, x, y, points, endurance, k_up, k_down, k_left, k_right, k_fire, space_pressed, timer_interval, next_bullet_time):
+        pygame.sprite.Sprite.__init__(self)
         self.speed = speed
         self.image = image
         self.destroyed_image = destroyed_image
@@ -12,7 +13,15 @@ class Tank:
         self.start_time = pygame.time.get_ticks()
         self.points = points
         self.endurance = endurance
-
+        self.bullets = pygame.sprite.Group()
+        self.k_up=k_up
+        self.k_down=k_down
+        self.k_left=k_left
+        self.k_right=k_right
+        self.k_fire=k_fire
+        self.space_pressed=space_pressed
+        self.timer_interval = timer_interval
+        self.next_bullet_time = next_bullet_time
 
 
     def move(self, up=False, down=False, turn_left=False, turn_right=False):
@@ -38,7 +47,6 @@ class Tank:
 
                 self.rect = self.image.get_rect(center=self.image.get_rect(center=(self.rect.x+40, self.rect.y+40)).center)
                 self.start_time = pygame.time.get_ticks()
-
 
 
         if down:
