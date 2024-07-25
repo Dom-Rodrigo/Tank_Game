@@ -1,7 +1,7 @@
 import pygame
 
 class Tank:
-    def __init__(self, image, destroyed_image, speed, x, y):
+    def __init__(self, image, destroyed_image, speed, x, y, points, endurance):
         self.speed = speed
         self.image = image
         self.destroyed_image = destroyed_image
@@ -10,6 +10,8 @@ class Tank:
         self.rect.y = y;
         self.turn = 0;
         self.start_time = pygame.time.get_ticks()
+        self.points = points
+        self.endurance = endurance
 
 
 

@@ -24,11 +24,11 @@ next1_bullet_time = 100
 
 tank_image = pygame.image.load("tank.png").convert_alpha()
 tank_destroyed_image = pygame.image.load("tank_destroyed.png").convert_alpha()
-tank = Tank(tank_image, tank_destroyed_image, speed=5, x=0, y=0)
+tank = Tank(tank_image, tank_destroyed_image, speed=5, x=0, y=0, points=0, endurance=50)
 
 tank1_image = pygame.image.load("tank1.png").convert_alpha()
 tank1_destroyed_image = pygame.image.load("tank1_destroyed.png").convert_alpha()
-tank1 = Tank(tank1_image, tank1_destroyed_image, speed=5, x=width-73, y=height-80)
+tank1 = Tank(tank1_image, tank1_destroyed_image, speed=5, x=width-73, y=height-80, points=0, endurance=50)
 
 bimg = pygame.image.load("bullet.png")
 
@@ -63,11 +63,7 @@ def show_game_over_message():
                     return False
 
 
-tank_points = 0
-tank1_points = 0
 
-tank_lifes = 50
-tank1_lifes = 50
 
 while True:
     for event in pygame.event.get():
@@ -77,7 +73,7 @@ while True:
     screen.fill(grey)
 
     font = pygame.font.Font(None, 40)
-    placar = font.render(f"Green {tank_points} x Red {tank1_points}", True, (20, 20, 20))
+    placar = font.render(f"Green {tank.points} x Red {tank1.points}", True, (20, 20, 20))
     screen.blit(placar, (width//2 - placar.get_width()//2, 0))
 
     tank.check_ifout(screen_rect)
@@ -129,22 +125,21 @@ while True:
 
     for tank1_bullet in tank1_bullets:
         if tank1_bullet.rect.colliderect(tank.rect):
-            tank_lifes -= 1
+            tank.endurance -= 1
 
-            if tank_lifes == 0:
+            if tank.endurance == 0:
                 destroy.play()
-                tank1_points += 1
                 tank.speed = 0
                 tank.image = tank.destroyed_image
                 tank.rect.x = tank.rect.x - 16
                 tank.rect.y = tank.rect.y - 16
                 screen.blit(tank.image, tank.rect)
                 if show_game_over_message():
-                    tank = Tank(tank_image, tank_destroyed_image, speed=5, x=0, y=0)
-                    tank1 = Tank(tank1_image, tank1_destroyed_image, speed=5, x=width-73, y=height-80)
+                    tank1.points +=1
+                    tank = Tank(tank_image, tank_destroyed_image, speed=5, x=0, y=0, points=tank.points, endurance=50)
+                    tank1 = Tank(tank1_image, tank1_destroyed_image, speed=5, x=width-73, y=height-80, points=tank1.points, endurance=50)
                     tank_bullets.empty()
                     tank1_bullets.empty()
-                    tank_lifes = 50
                 else:
                     pygame.quit()
                     sys.exit()
@@ -158,11 +153,10 @@ while True:
 
     for tank_bullet in tank_bullets:
         if tank_bullet.rect.colliderect(tank1.rect):
-            tank1_lifes -= 1
+            tank1.endurance -= 1
 
-            if tank1_lifes == 0:
+            if tank1.endurance == 0:
                 destroy.play()
-                tank_points += 1
                 tank1.speed = 0
                 tank1.image = tank1_destroyed_image
                 tank1.rect.x = tank1.rect.x - 16
@@ -170,11 +164,11 @@ while True:
                 screen.blit(tank1.image, tank1.rect)
                 pygame.time.delay(2000)
                 if show_game_over_message():
-                    tank = Tank(tank_image, tank_destroyed_image, speed=5, x=0, y=0)
-                    tank1 = Tank(tank1_image, tank1_destroyed_image, speed=5, x=width-73, y=height-80)
+                    tank.points += 1
+                    tank = Tank(tank_image, tank_destroyed_image, speed=5, x=0, y=0, points=tank.points,  endurance=50)
+                    tank1 = Tank(tank1_image, tank1_destroyed_image, speed=5, x=width-73, y=height-80, points=tank1.points,  endurance=50)
                     tank_bullets.empty()
                     tank1_bullets.empty()
-                    tank1_lifes = 50
                 else:
                     pygame.quit()
 
