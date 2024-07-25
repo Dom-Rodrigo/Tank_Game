@@ -78,3 +78,7 @@ class Tank(pygame.sprite.Sprite):
                  self.rect.y = screen_rect.top + 80
             if self.rect.y > screen_rect.height-83: #works
                  self.rect.y = screen_rect.height-83
+
+    def update(self, x, y):
+        self.rect.x = x
+        self.rect.y = y

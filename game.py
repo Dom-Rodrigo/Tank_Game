@@ -23,17 +23,18 @@ timer_interval = 100
 next_bullet_time = 100
 next1_bullet_time = 100
 
+positions = [[0, 0], [width-73, width-73], [0, width-73]]
 tank_destroyed_image = pygame.image.load("tank1_destroyed.png").convert_alpha()
 
 tank_image = pygame.image.load("tank.png").convert_alpha()
 tank = Tank(tank_image, tank_destroyed_image, speed=5, x=0, y=0, points=0, endurance=50, k_up=pygame.K_UP, k_down=pygame.K_DOWN, k_left=pygame.K_LEFT, k_right=pygame.K_RIGHT, k_fire=pygame.K_SPACE, space_pressed=0, next_bullet_time=100, timer_interval=100)
 
 tank1_image = pygame.image.load("tank1.png").convert_alpha()
-tank1 = Tank(tank1_image, tank_destroyed_image, speed=5, x=width-73, y=height-80, points=0, endurance=50,  k_up=pygame.K_w, k_down=pygame.K_s, k_left=pygame.K_a, k_right=pygame.K_d, k_fire=pygame.K_f, space_pressed=0, next_bullet_time=100, timer_interval=100)
+tank1 = Tank(tank1_image, tank_destroyed_image, speed=5, x=width-73, y=width-73, points=0, endurance=50,  k_up=pygame.K_w, k_down=pygame.K_s, k_left=pygame.K_a, k_right=pygame.K_d, k_fire=pygame.K_f, space_pressed=0, next_bullet_time=100, timer_interval=100)
 
 
 tank2_image = pygame.image.load("tank2.png").convert_alpha()
-tank2 = Tank(tank2_image, tank_destroyed_image, speed=5, x=0, y=height-80, points=0, endurance=50,  k_up=pygame.K_u, k_down=pygame.K_j, k_left=pygame.K_h, k_right=pygame.K_k, k_fire=pygame.K_o, space_pressed=0, next_bullet_time=100, timer_interval=100)
+tank2 = Tank(tank2_image, tank_destroyed_image, speed=5, x=0, y=width-73, points=0, endurance=50,  k_up=pygame.K_u, k_down=pygame.K_j, k_left=pygame.K_h, k_right=pygame.K_k, k_fire=pygame.K_o, space_pressed=0, next_bullet_time=100, timer_interval=100)
 
 bimg = pygame.image.load("bullet.png")
 
@@ -110,7 +111,7 @@ while True:
     for tank in tanks:
         screen.blit(tank.image, tank.rect)
         current_time = pygame.time.get_ticks()
-       
+
         if current_time > tank.next_bullet_time:
             if keys[tank.k_fire]:
                 tank.bullets.add(Bullet(bimg, tank))
@@ -133,6 +134,10 @@ while True:
                         if show_game_over_message():
                             bullet.tank.points +=1
                             collided.endurance = 50
+                            i = 0;
+                            for tank in tanks:
+                                tank.update(positions[i][0], positions[i][1])
+                                i+=1
                             # RENEW THE TANKS
                             ##collided = Tank(tank1_image, tank1_destroyed_image, speed, x=width, y=height, points, endurance,  k_up, k_down, k_left, k_right, k_fire, space_pressed, next_bullet_time, timer_interval)
                             #pygame.time.delay(500)
