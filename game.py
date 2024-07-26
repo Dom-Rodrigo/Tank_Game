@@ -6,7 +6,8 @@ pygame.mixer.init()
 pygame.init()
 
 # sound of bullets
-sound_bullet=pygame.mixer.Sound("Pistola22cal.wav")
+sound_bullet=pygame.mixer.Sound("shot.wav")
+metal_impact=pygame.mixer.Sound("metal_impact.wav")
 
 # destruction sounds
 destroy = pygame.mixer.Sound("explosao.wav")
@@ -21,7 +22,7 @@ screen_rect = screen.get_rect()
 #define font
 font=pygame.font.SysFont("arialblack", 40)
 
-#define colors 
+#define colors
 TEXT_COL=(255,255,255)
 
 def draw_text(display_text, font, text_col, x, y):
@@ -34,7 +35,7 @@ def show_menu():
        draw_text('TANK GAME', font, TEXT_COL, (width//2)-150, 100)
        draw_text("Press P to play", font, TEXT_COL, (width//2)-150, 200)
        draw_text("Press Q to quit", font, TEXT_COL, (width//2)-150, 300)
-       
+
        for event in pygame.event.get():
               if event.type == pygame.QUIT:
                 pygame.quit()
@@ -78,12 +79,12 @@ def main():
                    pygame.quit()
                    sys.exit()
                if event.key == pygame.K_p:
-                   show_menu()         
+                   show_menu()
        screen.fill(grey)
        tanks_points = []
        for tank in tanks:
            tanks_points.append(tank)
-       placar = font.render(f"Green {tanks_points[0].points} x Red {tanks_points[1].points} x Blue {tanks_points[2].points}", True, (20, 20, 20))     
+       placar = font.render(f"Green {tanks_points[0].points} x Red {tanks_points[1].points} x Blue {tanks_points[2].points}", True, (20, 20, 20))
        screen.blit(placar, (width//2 - placar.get_width()//2, 0))
        keys = pygame.key.get_pressed()
        movement(tanks, screen, keys)
@@ -144,17 +145,18 @@ def firing(tanks, screen, keys,bimg,positions):
                 if keys[tank.k_fire]:
                     if len(tank.bullets) < 10:
                         tank.bullets.add(Bullet(bimg, tank))
+                        tank.space_pressed = 1
+                        sound_bullet.play(maxtime=500)
+
                     else:
                         pass
                     print(len(tank.bullets))
-                    tank.space_pressed = 1
-                    sound_bullet.play()
                 tank.next_bullet_time += tank.timer_interval
 
                 # WORKS UNTIL HERE
                 for bullet in tank.bullets:
                     if pygame.sprite.spritecollideany(bullet, tanks):
-
+                        metal_impact.play(maxtime=300)
                         collided = pygame.sprite.spritecollideany(bullet, tanks)
                         collided.endurance -= 1
                         if collided.endurance == 0:
@@ -174,7 +176,7 @@ def firing(tanks, screen, keys,bimg,positions):
 def restart_game(tanks, positions):
     for i, tank in enumerate(tanks):
         tank.endurance = 60
-        tank.points = 0
+        #tank.points = 0
         tank.rect.topleft = positions[i]
         tank.bullets.empty()
         #colocar os placares
