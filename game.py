@@ -159,6 +159,8 @@ def firing(tanks, screen, keys,bimg,positions):
                         metal_impact.play(maxtime=300)
                         collided = pygame.sprite.spritecollideany(bullet, tanks)
                         collided.endurance -= 1
+                        bullet.rect.x = -5
+                        bullet.rect.y = -5
                         if collided.endurance == 0:
                             bullet.tank.bullets.empty()
                             screen.blit(collided.destroyed_image, (collided.rect.x-16, collided.rect.y-16))
