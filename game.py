@@ -120,7 +120,7 @@ def movement(tanks, screen, keys):
         tank.bullets.draw(screen)
 
         if tank.space_pressed == 1:
-            tank.bullets.update()
+            tank.bullets.update(width, height)
 
         start_time = pygame.time.get_ticks()
 

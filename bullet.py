@@ -22,7 +22,7 @@ class Bullet(pygame.sprite.Sprite):
         #adjusted to the tip
 
 
-    def update(self):
+    def update(self, width, height):
         if self.turn in [0, 4, -4]: #Tank is poiting to the top
             self.rect.move_ip(0, -4)
         if self.turn in [-2, 2]: #Tank is pointing down
@@ -33,9 +33,9 @@ class Bullet(pygame.sprite.Sprite):
             self.rect.move_ip(-4, 0)
         if self.rect.top < 0:
             self.kill()
-        if self.rect.top > 900:
+        if self.rect.top > height:
             self.kill()
-        if self.rect.right > 1800:
+        if self.rect.right > width:
             self.kill()
         if self.rect.right < 0:
             self.kill()
